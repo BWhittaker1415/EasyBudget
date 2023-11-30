@@ -14,6 +14,9 @@ import "./index.css";
 import PrivateRoute from "./components/PrivateRoute.jsx";
 import WelcomeScreen from "./screens/WelcomeScreen.jsx";
 import Dashboard from "./screens/Dashboard.jsx";
+import Accounts from "./screens/AccountScreen.jsx";
+import Budgets from "./screens/BudgetScreen.jsx";
+import History from "./screens/HistoryScreen.jsx";
 import LoginScreen from "./screens/LoginScreen.jsx";
 import RegisterScreen from "./screens/RegisterScreen.jsx";
 import ProfileScreen from "./screens/ProfileScreen.jsx";
@@ -29,6 +32,9 @@ const router = createBrowserRouter(
       <Route path="" element={<PrivateRoute />}>
         <Route path="/profile" element={<ProfileScreen />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/accounts" element={<Accounts />} />
+        <Route path="/budgets" element={<Budgets />} />
+        <Route path="/history" element={<History />} />
       </Route>
     </Route>
   )

@@ -23,7 +23,7 @@ const RegisterScreen = () => {
 
   useEffect(() => {
     if (userInfo) {
-      navigate("/");
+      navigate("/dashboard");
     }
   }, [navigate, userInfo]);
 
@@ -40,7 +40,7 @@ const RegisterScreen = () => {
           confirmPassword,
         }).unwrap();
         dispatch(setCredentials({ ...response }));
-        navigate("/");
+        navigate("/dashboard");
         toast.success("New profile created! Welcome!");
       } catch (err) {
         toast.error(err.data.message || err.error);

@@ -37,6 +37,27 @@ export const usersApiSlice = apiSlice.injectEndpoints({
         body: data,
       }),
     }),
+    accounts: builder.mutation({
+      query: () => ({
+        url: `${USERS_URL}/accounts`,
+        method: "GET",
+        body: data,
+      }),
+    }),
+    budgets: builder.mutation({
+      query: () => ({
+        url: `${USERS_URL}/budgets`,
+        method: "GET",
+        body: data,
+      }),
+    }),
+    history: builder.mutation({
+      query: () => ({
+        url: `${USERS_URL}/history`,
+        method: "GET",
+        body: data,
+      }),
+    }),
   }),
 });
 
@@ -46,4 +67,7 @@ export const {
   useRegisterMutation,
   useUpdateUserMutation,
   useDashboardMutation,
+  useAccountsMutation,
+  useBudgetsMutation,
+  useHistoryMutation,
 } = usersApiSlice;

@@ -41,6 +41,7 @@ const RegisterScreen = () => {
         }).unwrap();
         dispatch(setCredentials({ ...response }));
         navigate("/");
+        toast.success("New profile created! Welcome!");
       } catch (err) {
         toast.error(err.data.message || err.error);
       }

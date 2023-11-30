@@ -30,6 +30,13 @@ export const usersApiSlice = apiSlice.injectEndpoints({
         body: data,
       }),
     }),
+    dashboard: builder.mutation({
+      query: () => ({
+        url: `${USERS_URL}/dashboard`,
+        method: "GET",
+        body: data,
+      }),
+    }),
   }),
 });
 
@@ -38,4 +45,5 @@ export const {
   useLogoutMutation,
   useRegisterMutation,
   useUpdateUserMutation,
+  useDashboardMutation,
 } = usersApiSlice;

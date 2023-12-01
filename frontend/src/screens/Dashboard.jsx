@@ -1,6 +1,7 @@
 import { useDashboardMutation } from "../slices/usersApiSlice";
 import { Row, Col } from "react-bootstrap";
 import pieChart from "../charts/PieChart";
+import lineChart from "../charts/LineChart";
 import ReactECharts from "echarts-for-react";
 
 const HomeScreen = () => {
@@ -36,10 +37,7 @@ const HomeScreen = () => {
 
           <Col className="card" md={5} lg={5}>
             <h3>Cashflow Graph</h3>
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Magnam nam
-            numquam, nisi ex reiciendis sequi architecto, commodi vero sunt
-            iusto cum quis laborum rem id expedita ipsum reprehenderit maxime
-            in.
+            <ReactECharts option={lineChart} />
           </Col>
         </Row>
       </div>

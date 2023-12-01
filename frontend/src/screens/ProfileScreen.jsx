@@ -1,14 +1,16 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { Form, Button } from "react-bootstrap";
+import { Form, Button, Row, Col, Image } from "react-bootstrap";
 import FormContainer from "../components/FormContainer";
 import { toast } from "react-toastify";
 import Loader from "../components/Loader";
+import ProfileImage from "../assets/ProfileImage.png";
 import { setCredentials } from "../slices/authSlice";
 import { useUpdateUserMutation } from "../slices/usersApiSlice";
 
 const ProfileScreen = () => {
+  const [image, setImage] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -22,9 +24,10 @@ const ProfileScreen = () => {
   const [updateProfile, { isLoading }] = useUpdateUserMutation();
 
   useEffect(() => {
+    setImage(userInfo.image);
     setName(userInfo.name);
     setEmail(userInfo.email);
-  }, [userInfo.setName, userInfo.Email]);
+  }, [userInfo.setImage, userInfo.setName, userInfo.Email]);
 
   const submitHandler = async (e) => {
     e.preventDefault();
@@ -34,6 +37,7 @@ const ProfileScreen = () => {
       try {
         const response = await updateProfile({
           _id: userInfo._id,
+          image,
           name,
           email,
           password,
@@ -48,7 +52,13 @@ const ProfileScreen = () => {
 
   return (
     <FormContainer>
-      <h1>Update Profile</h1>
+      <h1>Update {name}'s Profile</h1>
+
+      <Row>
+        <Col xs={6} md={4}>
+          <Image roundedCircle />
+        </Col>
+      </Row>
 
       <Form.Group className="my-2" controlId="name">
         <Form.Label>Name</Form.Label>

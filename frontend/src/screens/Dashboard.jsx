@@ -9,16 +9,13 @@ const HomeScreen = () => {
 
   return (
     <>
-      <h2>Dashboard</h2>
+      <h1>Dashboard</h1>
 
       <div>
         <Row>
           <Col className="card" md={5} lg={5}>
             <h3>Recent Transactions</h3>
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Magnam nam
-            numquam, nisi ex reiciendis sequi architecto, commodi vero sunt
-            iusto cum quis laborum rem id expedita ipsum reprehenderit maxime
-            in.
+            <div></div>
           </Col>
 
           <Col className="card" md={5} lg={5}>

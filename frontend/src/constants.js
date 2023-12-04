@@ -1,0 +1,7 @@
+export const BASE_URL =
+  process.env.NODE_ENV === "development" ? "http://localhost:6000" : "";
+
+export const BUDGET_URL = "/api/budgets";
+export const USERS_URL = "/api/users";
+export const ACCOUNTS_URL = "/api/accounts";
+export const TRANSACTIONS_URL = "/api/transactions";

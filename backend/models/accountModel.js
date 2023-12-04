@@ -18,6 +18,7 @@ const accountSchema = new mongoose.Schema(
     creditCard: {
       type: Boolean,
       required: true,
+      default: false,
     },
   },
   {

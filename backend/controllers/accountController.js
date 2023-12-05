@@ -6,7 +6,7 @@ import Account from "../models/accountModel.js";
 // route   =>  POST /api/accounts
 // access   =>   Private
 const registerAccount = asyncHandler(async (req, res) => {
-  const { name, bank, type, creditCard } = req.body;
+  const { name, bank, type } = req.body;
 
   const accountExists = await Account.findOne({ name });
 
@@ -19,7 +19,6 @@ const registerAccount = asyncHandler(async (req, res) => {
     name,
     bank,
     type,
-    creditCard,
   });
 
   if (account) {
@@ -28,7 +27,6 @@ const registerAccount = asyncHandler(async (req, res) => {
       name: account.name,
       bank: account.bank,
       type: account.type,
-      creditCard: account.creditCard,
     });
   } else {
     res.status(400);
@@ -46,7 +44,6 @@ const getAccount = asyncHandler(async (req, res) => {
     name: req.account.name,
     bank: req.account.bank,
     type: req.account.type,
-    creditCard: req.account.creditCard,
   };
 
   res.status(200).json(account);
@@ -63,7 +60,6 @@ const updateAccount = asyncHandler(async (req, res) => {
     account.name = req.body.name || account.name;
     account.bank = req.body.bank || account.bank;
     account.type = req.body.type || account.type;
-    account.creditCard = req.body.creditCard || account.creditCard;
 
     const updatedAccount = await account.save();
 
@@ -72,7 +68,6 @@ const updateAccount = asyncHandler(async (req, res) => {
       name: updatedAccount.name,
       bank: updatedAccount.bank,
       type: updatedAccount.type,
-      creditCard: updatedAccount.creditCard,
     });
   } else {
     res.status(404);

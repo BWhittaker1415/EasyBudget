@@ -6,6 +6,9 @@ import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
 import connectDB from "./config/db.js";
 const PORT = process.env.PORT || 6000;
 import userRoutes from "./routes/userRoutes.js";
+import accountRoutes from "./routes/accountRoutes.js";
+import budgetRoutes from "./routes/budgetRoutes.js";
+import transactionRoutes from "./routes/transactionRoutes.js";
 
 connectDB();
 
@@ -17,6 +20,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 app.use("/api/users", userRoutes);
+app.use("/api/accounts", accountRoutes);
+app.use("/api/budgets", budgetRoutes);
+app.use("/api/transactions", transactionRoutes);
 
 app.get("/", (req, res) => res.send("Server is ready"));
 

@@ -7,6 +7,10 @@ const accountSchema = new mongoose.Schema(
       required: true,
       ref: "User",
     },
+    name: {
+      type: String,
+      required: true,
+    },
     bank: {
       type: String,
       required: true,
@@ -14,11 +18,6 @@ const accountSchema = new mongoose.Schema(
     type: {
       type: String,
       required: true,
-    },
-    creditCard: {
-      type: Boolean,
-      required: true,
-      default: false,
     },
   },
   {

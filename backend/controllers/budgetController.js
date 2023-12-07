@@ -1,82 +1,63 @@
 import asyncHandler from "express-async-handler";
 import Budget from "../models/budgetModel.js";
 
-// ================== REGISTER BUDGET ================== //
-// desc   =>   Register a new budget
+// ================== CREATE NEW BUDGET ================== //
+// desc   =>   Create a new budget
 // route   =>  POST /api/budgets
 // access   =>   Private
-const registerBudget = asyncHandler(async (req, res) => {
+const createBudget = asyncHandler(async (req, res) => {
+  console.log(req.body);
   const { category, name, date, cost } = req.body;
 
-  const budgetExists = await Budget.findOne({ name });
-
-  if (budgetExists) {
+  if (!category || !name || !date || !cost) {
     res.status(400);
-    throw new Error("budget already exists");
-  }
-
-  const budget = await Budget.create({
-    category,
-    name,
-    date,
-    cost,
-  });
-
-  if (budget) {
-    res.status(201).json({
-      _id: budget._id,
-      category: budget.category,
-      name: budget.name,
-      date: budget.date,
-      cost: budget.cost,
-    });
+    throw new Error("Invalid data");
   } else {
-    res.status(400);
-    throw new Error("Invalid budget data");
+    const newBudget = new Budget({
+      category,
+      name,
+      date,
+      cost,
+    });
+
+    const createdBudget = await newBudget.save();
+    console.log(createdBudget);
+    res.status(201).json(createdBudget);
   }
 });
 
 // ================== GET BUDGET ================== //
-// desc   =>   Get an budget
-// route   =>  GET /api/budgets/budget
+// desc   =>   Get all budgets
+// route   =>  GET /api/budgets
 // access   =>   Private
 const getBudget = asyncHandler(async (req, res) => {
-  const budget = {
-    _id: req.budget._id,
-    name: req.budget.name,
-    bank: req.budget.bank,
-    type: req.budget.type,
-  };
-
+  console.log("working");
+  const budget = await Budget.find({});
+  console.log(budget);
   res.status(200).json(budget);
 });
 
 // ================== UPDATE BUDGET ================== //
-// desc   =>   Update budget
-// route   =>  PUT /api/budgets/budget
+// desc   =>   Update budget to paid
+// route   =>  GET /api/budgets/:id
 // access   =>   Private
 const updateBudget = asyncHandler(async (req, res) => {
-  const budget = await Budget.findById(req.budget._id);
+  const { category, name, date, cost } = req.body;
+
+  const budget = await Budget.findById(req.params.id);
 
   if (budget) {
-    budget.category = req.body.category || budget.category;
-    budget.name = req.body.name || budget.name;
-    budget.date = req.body.date || budget.date;
-    budget.cost = req.body.cost || budget.cost;
+    budget.category = category;
+    budget.name = name;
+    budget.date = date;
+    budget.cost = cost;
 
     const updatedBudget = await budget.save();
-
-    res.status(200).json({
-      _id: updatedBudget._id,
-      category: updatedBudget.category,
-      name: updatedBudget.name,
-      date: updatedBudget.date,
-      cost: updatedBudget.cost,
-    });
+    res.json(updatedBudget);
   } else {
     res.status(404);
     throw new Error("Budget not found");
   }
 });
 
-export { registerBudget, updateBudget, getBudget };
+export { createBudget, getBudget, updateBudget };

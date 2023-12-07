@@ -16,7 +16,8 @@ import WelcomeScreen from "./screens/WelcomeScreen.jsx";
 import Dashboard from "./screens/Dashboard.jsx";
 import Accounts from "./screens/AccountScreen.jsx";
 import Budgets from "./screens/BudgetScreen.jsx";
-import History from "./screens/HistoryScreen.jsx";
+import CreateBudgets from "./screens/BudgetCreateScreen.jsx";
+import Transaction from "./screens/TransactionScreen.jsx";
 import LoginScreen from "./screens/LoginScreen.jsx";
 import RegisterScreen from "./screens/RegisterScreen.jsx";
 import ProfileScreen from "./screens/ProfileScreen.jsx";
@@ -34,7 +35,8 @@ const router = createBrowserRouter(
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/accounts" element={<Accounts />} />
         <Route path="/budgets" element={<Budgets />} />
-        <Route path="/history" element={<History />} />
+        <Route path="/budgets/create" element={<CreateBudgets />} />
+        <Route path="/transactions" element={<Transaction />} />
       </Route>
     </Route>
   )

@@ -19,7 +19,7 @@ const Header = () => {
     try {
       await logoutApiCall().unwrap();
       dispatch(clearCredentials());
-      navigate("/");
+      navigate("/login");
     } catch (err) {
       console.log(err);
     }
@@ -56,8 +56,8 @@ const Header = () => {
                     <LinkContainer to="/budgets">
                       <NavDropdown.Item>Budgets</NavDropdown.Item>
                     </LinkContainer>
-                    <LinkContainer to="/history">
-                      <NavDropdown.Item>User History</NavDropdown.Item>
+                    <LinkContainer to="/transactions">
+                      <NavDropdown.Item>Transactions</NavDropdown.Item>
                     </LinkContainer>
                     <NavDropdown.Item onClick={logoutHandler}>
                       Logout

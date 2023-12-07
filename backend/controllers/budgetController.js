@@ -6,7 +6,6 @@ import Budget from "../models/budgetModel.js";
 // route   =>  POST /api/budgets
 // access   =>   Private
 const createBudget = asyncHandler(async (req, res) => {
-  console.log(req.body);
   const { category, name, date, cost } = req.body;
 
   if (!category || !name || !date || !cost) {
@@ -21,7 +20,6 @@ const createBudget = asyncHandler(async (req, res) => {
     });
 
     const createdBudget = await newBudget.save();
-    console.log(createdBudget);
     res.status(201).json(createdBudget);
   }
 });
@@ -31,10 +29,23 @@ const createBudget = asyncHandler(async (req, res) => {
 // route   =>  GET /api/budgets
 // access   =>   Private
 const getBudget = asyncHandler(async (req, res) => {
-  console.log("working");
   const budget = await Budget.find({});
-  console.log(budget);
   res.status(200).json(budget);
+});
+
+// ================== GET ONE BUDGET ================== //
+// desc   =>   Get budget details
+// route   =>  GET /api/budgets/:id
+// access   =>   Private
+const getBudgetById = asyncHandler(async (req, res) => {
+  const budget = await Budget.findById(req.params.id);
+
+  if (budget) {
+    return res.json(budget);
+  } else {
+    res.status(404);
+    throw new Error("Budget not found");
+  }
 });
 
 // ================== UPDATE BUDGET ================== //
@@ -60,4 +71,4 @@ const updateBudget = asyncHandler(async (req, res) => {
   }
 });
 
-export { createBudget, getBudget, updateBudget };
+export { createBudget, getBudget, getBudgetById, updateBudget };

@@ -16,15 +16,25 @@ export const budgetApiSlice = apiSlice.injectEndpoints({
         api.dispatch(budgetApiSlice.endpoints.getBudget.initiate());
       },
     }),
+
     getBudget: builder.query({
       query: () => ({
         url: BUDGETS_URL,
         method: "GET",
       }),
+      providesTags: ["Budget"],
+      keepUnusedDataFor: 5,
+    }),
+
+    getBudgetDetails: builder.query({
+      query: (budgetId) => ({
+        url: `${BUDGETS_URL}/${budgetId}`,
+      }),
+      keepUnusedDataFor: 5,
     }),
     updateBudget: builder.mutation({
       query: (data) => ({
-        url: `${BUDGETS_URL}/${data._id}`,
+        url: `${BUDGETS_URL}/${data.budgetId}`,
         method: "PUT",
         body: data,
       }),
@@ -33,5 +43,9 @@ export const budgetApiSlice = apiSlice.injectEndpoints({
   }),
 });
 
-export const { useCreateMutation, useGetBudgetQuery, useUpdateBudgetMutation } =
-  budgetApiSlice;
+export const {
+  useCreateMutation,
+  useGetBudgetQuery,
+  useGetBudgetDetailsQuery,
+  useUpdateBudgetMutation,
+} = budgetApiSlice;

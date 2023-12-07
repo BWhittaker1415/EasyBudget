@@ -17,6 +17,8 @@ import Dashboard from "./screens/Dashboard.jsx";
 import Accounts from "./screens/AccountScreen.jsx";
 import Budgets from "./screens/BudgetScreen.jsx";
 import CreateBudgets from "./screens/BudgetCreateScreen.jsx";
+import BudgetEdit from "./screens/BudgetEditScreen.jsx";
+import BudgetDetail from "./screens/BudgetDetailScreen.jsx";
 import Transaction from "./screens/TransactionScreen.jsx";
 import LoginScreen from "./screens/LoginScreen.jsx";
 import RegisterScreen from "./screens/RegisterScreen.jsx";
@@ -35,6 +37,8 @@ const router = createBrowserRouter(
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/accounts" element={<Accounts />} />
         <Route path="/budgets" element={<Budgets />} />
+        <Route path="/budgets/:id" element={<BudgetDetail />} />
+        <Route path="/budgets/:id/edit" element={<BudgetEdit />} />
         <Route path="/budgets/create" element={<CreateBudgets />} />
         <Route path="/transactions" element={<Transaction />} />
       </Route>

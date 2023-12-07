@@ -18,7 +18,7 @@ const BudgetScreen = () => {
 
       <LinkContainer to="/budgets/create" className="my-3">
         <Button variant="light" className="btn-sm create-btn">
-          <IoMdAddCircleOutline />
+          <IoMdAddCircleOutline /> Add New Budget
         </Button>
       </LinkContainer>
 
@@ -44,7 +44,7 @@ const BudgetScreen = () => {
                 <tr key={budget._id}>
                   <td>{budget.category}</td>
                   <td>{budget.name}</td>
-                  <td>{budget.createdAt.substring(0, 10)}</td>
+                  <td>{budget.date}</td>
                   <td>{budget.cost}</td>
                   <td>
                     <LinkContainer to={`/budgets/${budget._id}/edit`}>

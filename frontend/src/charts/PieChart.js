@@ -13,9 +13,9 @@ const pieChart = {
       radius: ["40%", "70%"],
       avoidLabelOverlap: false,
       itemStyle: {
-        borderRadius: 10,
+        borderRadius: 5,
         borderColor: "#fff",
-        borderWidth: 2,
+        borderWidth: 3,
       },
       label: {
         show: false,
@@ -24,7 +24,7 @@ const pieChart = {
       emphasis: {
         label: {
           show: true,
-          fontSize: 40,
+          fontSize: 30,
           fontWeight: "bold",
         },
       },
@@ -32,11 +32,11 @@ const pieChart = {
         show: false,
       },
       data: [
-        { value: 1048, name: "Search Engine" },
-        { value: 735, name: "Direct" },
-        { value: 580, name: "Email" },
-        { value: 484, name: "Union Ads" },
-        { value: 300, name: "Video Ads" },
+        { value: 1500, name: "Mortgage" },
+        { value: 400, name: "Car" },
+        { value: 300, name: "Food" },
+        { value: 150, name: "Utilities" },
+        { value: 400, name: "Electric" },
       ],
     },
   ],

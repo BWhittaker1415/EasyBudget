@@ -7,10 +7,11 @@ const Hero = () => {
       <Container className="d-flex justify-content-center">
         <Card className="p-5 d-flex flex-column align-items-center hero-card bg-light w-75">
           <h1 className="text-center mb-4">EasyBudget</h1>
-          <p className="text-center mb-4"></p>
-          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Similique
-          necessitatibus commodi est aperiam quis velit rem, excepturi, incidunt
-          repudiandae inventore fugiat, quibusdam facilis nobis distinctio.
+          <h6 className="text-center mb-4">
+            Welcome to EasyBudget! Here, we strive to make budgeting your
+            expenses just a little bit easier.
+          </h6>
+
           <div className="d-flex">
             <LinkContainer to="/login">
               <Button variant="primary" className="me-3">

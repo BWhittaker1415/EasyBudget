@@ -6,11 +6,29 @@ import { IoMdAddCircleOutline } from "react-icons/io";
 import { GoTrash } from "react-icons/go";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
-import { useGetBudgetQuery } from "../slices/budgetApiSlice";
+import {
+  useGetBudgetQuery,
+  useDeleteBudgetMutation,
+} from "../slices/budgetApiSlice";
 import { toast } from "react-toastify";
 
 const BudgetScreen = () => {
-  const { data: budgets, isLoading, err } = useGetBudgetQuery();
+  const { data: budgets, isLoading, err, refetch } = useGetBudgetQuery();
+
+  const [deleteBudget, { isLoading: loadingDelete }] =
+    useDeleteBudgetMutation();
+
+  const deleteHandler = async (id) => {
+    if (window.confirm("Are you sure you want to delete?")) {
+      try {
+        await deleteBudget(id);
+        toast.success("Budget deleted");
+        refetch();
+      } catch (error) {
+        toast.error(error.data.message || error.error);
+      }
+    }
+  };
 
   return (
     <>
@@ -22,6 +40,7 @@ const BudgetScreen = () => {
         </Button>
       </LinkContainer>
 
+      {loadingDelete && <Loader />}
       {isLoading ? (
         <Loader />
       ) : err ? (
@@ -53,13 +72,15 @@ const BudgetScreen = () => {
                       </Button>
                     </LinkContainer>
                   </td>
-                  {/* <td>
-                    <LinkContainer to={`/budgets/${budget._id}/edit`}>
-                      <Button variant="light" className="btn-sm mx-2">
-                        <GoTrash />
-                      </Button>
-                    </LinkContainer>
-                  </td> */}
+                  <td>
+                    <Button
+                      variant="danger"
+                      className="btn-sm mx-2"
+                      onClick={() => deleteHandler(budget._id)}
+                    >
+                      <GoTrash />
+                    </Button>
+                  </td>
                 </tr>
               ))}
           </tbody>

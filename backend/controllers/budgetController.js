@@ -71,4 +71,20 @@ const updateBudget = asyncHandler(async (req, res) => {
   }
 });
 
-export { createBudget, getBudget, getBudgetById, updateBudget };
+// ================== DELETE BUDGET ================== //
+// desc   =>   Delete budget
+// route   =>  DELETE /api/budgets/:id
+// access   =>   Private
+const deleteBudget = asyncHandler(async (req, res) => {
+  const budget = await Budget.findById(req.params.id);
+
+  if (budget) {
+    await Budget.deleteOne({ _id: budget._id });
+    res.status(200).json({ message: "Budget deleted" });
+  } else {
+    res.status(404);
+    throw new Error("Budget not found");
+  }
+});
+
+export { createBudget, getBudget, getBudgetById, updateBudget, deleteBudget };

@@ -32,6 +32,7 @@ export const budgetApiSlice = apiSlice.injectEndpoints({
       }),
       keepUnusedDataFor: 5,
     }),
+
     updateBudget: builder.mutation({
       query: (data) => ({
         url: `${BUDGETS_URL}/${data.budgetId}`,
@@ -39,6 +40,13 @@ export const budgetApiSlice = apiSlice.injectEndpoints({
         body: data,
       }),
       invalidatesTags: ["Budget"],
+    }),
+
+    deleteBudget: builder.mutation({
+      query: (budgetId) => ({
+        url: `${BUDGETS_URL}/${budgetId}`,
+        method: "DELETE",
+      }),
     }),
   }),
 });
@@ -48,4 +56,5 @@ export const {
   useGetBudgetQuery,
   useGetBudgetDetailsQuery,
   useUpdateBudgetMutation,
+  useDeleteBudgetMutation,
 } = budgetApiSlice;

@@ -67,7 +67,7 @@ const BudgetEditScreen = () => {
 
   return (
     <>
-      <Link to="/budgets" className="btn btn-light my-3">
+      <Link to="/budgets" className="btn btn-light my-3 buttons">
         Go Back
       </Link>
 
@@ -121,7 +121,7 @@ const BudgetEditScreen = () => {
               ></Form.Control>
             </Form.Group>
 
-            <Button type="submit" variant="primary" className="'my-2">
+            <Button type="submit" variant="primary" className="my-2 buttons">
               Update Budget
             </Button>
           </Form>

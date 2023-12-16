@@ -35,7 +35,7 @@ const BudgetScreen = () => {
       <h1>Budgets</h1>
 
       <LinkContainer to="/budgets/create" className="my-3">
-        <Button variant="light" className="btn-sm create-btn">
+        <Button variant="light" className="btn-sm create-btn buttons">
           <IoMdAddCircleOutline /> Add New Budget
         </Button>
       </LinkContainer>
@@ -46,7 +46,13 @@ const BudgetScreen = () => {
       ) : err ? (
         <Message variant="danger">{err}</Message>
       ) : (
-        <Table striped hover responsive className="table-sm budget-table">
+        <Table
+          bordered
+          striped
+          hover
+          responsive
+          className="table-sm budget-table"
+        >
           <thead>
             <tr>
               <th>CATEGORY</th>
@@ -63,11 +69,11 @@ const BudgetScreen = () => {
                 <tr key={budget._id}>
                   <td>{budget.category}</td>
                   <td>{budget.name}</td>
-                  <td>{budget.date}</td>
+                  <td>{new Date(budget.date).toLocaleDateString()}</td>
                   <td>{budget.cost}</td>
                   <td>
                     <LinkContainer to={`/budgets/${budget._id}/edit`}>
-                      <Button variant="light" className="btn-sm mx-2">
+                      <Button variant="light" className="btn-sm mx-2 buttons">
                         <GrEdit />
                       </Button>
                     </LinkContainer>
@@ -75,7 +81,7 @@ const BudgetScreen = () => {
                   <td>
                     <Button
                       variant="danger"
-                      className="btn-sm mx-2"
+                      className="btn-sm mx-2 buttons"
                       onClick={() => deleteHandler(budget._id)}
                     >
                       <GoTrash />

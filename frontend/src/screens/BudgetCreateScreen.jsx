@@ -22,10 +22,12 @@ const BudgetCreateScreen = () => {
     e.preventDefault();
     console.log("working");
     try {
+      const inputDate = new Date(date);
+      const newDate = new Date(inputDate.toISOString().split("T")[0]);
       const response = await create({
         category,
         name,
-        date,
+        date: newDate.toISOString().split("T")[0],
         cost,
       }).unwrap();
       console.log(response);
@@ -37,8 +39,6 @@ const BudgetCreateScreen = () => {
         });
         navigate("/budgets");
         toast.success("New budget created!");
-      } else {
-        toast.error("Failed to create new budget.");
       }
     } catch (err) {
       toast.error(err.data?.message || err.error);
@@ -49,7 +49,7 @@ const BudgetCreateScreen = () => {
     <div>
       <h1>Create a new Budget to track</h1>
 
-      <Link className="btn btn-light my-3" to="/budgets">
+      <Link className="btn btn-light my-3 buttons" to="/budgets">
         Go Back
       </Link>
 
@@ -96,7 +96,7 @@ const BudgetCreateScreen = () => {
 
           {isLoading && <Loader />}
 
-          <Button type="submit" variant="primary" className="mt-3">
+          <Button type="submit" variant="primary" className="mt-3 buttons">
             Add Budget
           </Button>
         </Form>

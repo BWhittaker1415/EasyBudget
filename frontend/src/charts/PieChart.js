@@ -3,14 +3,15 @@ const pieChart = {
     trigger: "item",
   },
   legend: {
-    top: "5%",
+    top: "2%",
     left: "center",
   },
+
   series: [
     {
       name: "Access From",
       type: "pie",
-      radius: ["40%", "70%"],
+      radius: ["40%", "60%"],
       avoidLabelOverlap: false,
       itemStyle: {
         borderRadius: 5,
@@ -32,7 +33,7 @@ const pieChart = {
         show: false,
       },
       data: [
-        { value: 1500, name: "Mortgage" },
+        { value: "1500", name: "Mortgage" },
         { value: 400, name: "Car" },
         { value: 300, name: "Food" },
         { value: 150, name: "Utilities" },

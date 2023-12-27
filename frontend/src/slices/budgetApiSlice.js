@@ -4,7 +4,7 @@ const BUDGETS_URL = "/api/budgets";
 
 export const budgetApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    create: builder.mutation({
+    createBudget: builder.mutation({
       query: (budget) => ({
         url: `${BUDGETS_URL}/create`,
         method: "POST",
@@ -52,7 +52,7 @@ export const budgetApiSlice = apiSlice.injectEndpoints({
 });
 
 export const {
-  useCreateMutation,
+  useCreateBudgetMutation,
   useGetBudgetQuery,
   useGetBudgetDetailsQuery,
   useUpdateBudgetMutation,

@@ -13,15 +13,22 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./index.css";
 import PrivateRoute from "./components/PrivateRoute.jsx";
 import WelcomeScreen from "./screens/WelcomeScreen.jsx";
+
 import Dashboard from "./screens/Dashboard.jsx";
+
 import Accounts from "./screens/AccountScreen.jsx";
+
 import Budgets from "./screens/BudgetScreen.jsx";
 import CreateBudgets from "./screens/BudgetCreateScreen.jsx";
 import BudgetEdit from "./screens/BudgetEditScreen.jsx";
 import BudgetDetail from "./screens/BudgetDetailScreen.jsx";
+
 import Transaction from "./screens/TransactionScreen.jsx";
+
 import LoginScreen from "./screens/LoginScreen.jsx";
+
 import RegisterScreen from "./screens/RegisterScreen.jsx";
+
 import ProfileScreen from "./screens/ProfileScreen.jsx";
 
 const router = createBrowserRouter(
@@ -34,12 +41,16 @@ const router = createBrowserRouter(
       {/* PRIVATE ROUTES */}
       <Route path="" element={<PrivateRoute />}>
         <Route path="/profile" element={<ProfileScreen />} />
+
         <Route path="/dashboard" element={<Dashboard />} />
+
         <Route path="/accounts" element={<Accounts />} />
+
         <Route path="/budgets" element={<Budgets />} />
         <Route path="/budgets/:id" element={<BudgetDetail />} />
         <Route path="/budgets/:id/edit" element={<BudgetEdit />} />
         <Route path="/budgets/create" element={<CreateBudgets />} />
+
         <Route path="/transactions" element={<Transaction />} />
       </Route>
     </Route>

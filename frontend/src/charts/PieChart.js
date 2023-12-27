@@ -13,11 +13,7 @@ const pieChart = {
       type: "pie",
       radius: ["40%", "60%"],
       avoidLabelOverlap: false,
-      itemStyle: {
-        borderRadius: 5,
-        borderColor: "#fff",
-        borderWidth: 3,
-      },
+
       label: {
         show: false,
         position: "center",

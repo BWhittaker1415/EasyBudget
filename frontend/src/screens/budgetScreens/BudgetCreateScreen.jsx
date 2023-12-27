@@ -2,10 +2,10 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { Form, Button } from "react-bootstrap";
-import FormContainer from "../components/FormContainer";
+import FormContainer from "../../components/FormContainer";
 import { toast } from "react-toastify";
-import Loader from "../components/Loader";
-import { useCreateMutation } from "../slices/budgetApiSlice";
+import Loader from "../../components/Loader";
+import { useCreateBudgetMutation } from "../../slices/budgetApiSlice";
 
 const BudgetCreateScreen = () => {
   const [category, setCategory] = useState("");
@@ -16,7 +16,7 @@ const BudgetCreateScreen = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const [create, { isLoading }] = useCreateMutation();
+  const [create, { isLoading }] = useCreateBudgetMutation();
 
   const submitHandler = async (e) => {
     e.preventDefault();

@@ -1,86 +1,61 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useDashboardMutation } from "../slices/usersApiSlice";
 import { Row, Col, Card } from "react-bootstrap";
+import ListGroup from "react-bootstrap/ListGroup";
 import pieChart from "../charts/PieChart";
 import lineChart from "../charts/LineChart";
 import ReactECharts from "echarts-for-react";
+import Vacation from "../assets/Vacation.svg";
+import Home from "../assets/Home.svg";
 
 const HomeScreen = () => {
   const [dashboard] = useDashboardMutation();
-  const [cardSize, setCardSize] = useState({ width: 0, height: 0 });
-  const cardRef = useRef(null);
-
-  useEffect(() => {
-    const updateCardSize = () => {
-      if (cardRef.current) {
-        const { offsetWidth, offsetHeight } = cardRef.current;
-        setCardSize({ width: offsetWidth, height: offsetHeight });
-      }
-    };
-
-    window.onload = () => {
-      initializeThirdPartyLibrary();
-    };
-
-    updateCardSize();
-
-    window.addEventListener("resize", updateCardSize);
-
-    return () => {
-      window.removeEventListener("resize", updateCardSize);
-    };
-  }, []);
-
-  const dynamicLineChart = {
-    ...lineChart,
-    grid: {
-      left: "10%",
-      right: "10%",
-      top: "15%",
-      bottom: "15%",
-    },
-    xAxis: {
-      ...lineChart.xAxis,
-      boundaryGap: false,
-    },
-    yAxis: {
-      ...lineChart.yAxis,
-    },
-  };
 
   return (
     <>
       <h1>Dashboard</h1>
 
       <div>
-        <Row>
-          <Col className="card" md={4} lg={4}>
-            <h3>Spending Trend</h3>
-            <ReactECharts
-              option={pieChart}
-              style={{ width: "100%", height: `${cardSize.height}px` }}
-            />
+        <Row className="justify-content-xs-center align-items-center">
+          <Col className="card" xs={11} sm={12} md={5} lg={4} xl={3}>
+            <h3>Your Personal Dashboard</h3>
+            <ReactECharts option={pieChart} />
           </Col>
-          <Col className="card" md={4} lg={4}>
-            <h3>Recent Transactions</h3>
-            <div></div>
+          <Col className="card" xs={11} sm={12} md={5} lg={4} xl={3}>
+            <h3>Spending</h3>
+            <ReactECharts option={pieChart} />
           </Col>
-        </Row>
-        <Row>
-          <Col className="card" md={4} lg={4}>
-            <h3>Recent Budgets</h3>
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Magnam nam
-            numquam, nisi ex reiciendis sequi architecto, commodi vero sunt
-            iusto cum quis laborum rem id expedita ipsum reprehenderit maxime
-            in.
+          <Col className="card" xs={11} sm={12} md={5} lg={4} xl={3}>
+            <h3>Pinned Budgets</h3>
+            Progression bars coming soon...
           </Col>
-          <Col className="card" md={4} lg={4}>
-            <h3>Cashflow Graph</h3>
-            <ReactECharts
-              option={dynamicLineChart}
-              style={{ width: "100%", height: `${cardSize.height}px` }}
-            />
+
+          <Col className="card" xs={11} sm={12} md={5} lg={4} xl={3}>
+            <h3>Transactions</h3>
+            Transaction table coming soon...
           </Col>
+          <Col className="card" xs={11} sm={12} md={5} lg={4} xl={3}>
+            <h3>Debt to Income</h3>
+            <ReactECharts option={lineChart} />
+          </Col>
+          <Card className="budget-card">
+            <Card.Img variant="top" className="mt-2" src={Vacation} />
+            <ListGroup className="list-group-center">
+              <Card.Title>Vacation</Card.Title>
+              <ListGroup.Item>Progress</ListGroup.Item>
+              <ListGroup.Item>$100.53</ListGroup.Item>
+              <ListGroup.Item>of $2,000</ListGroup.Item>
+            </ListGroup>
+          </Card>
+          <Card className="budget-card">
+            <Card.Img variant="top" src={Home} />
+            <ListGroup className="list-group-center">
+              <Card.Title>Home</Card.Title>
+              <ListGroup.Item>Progress</ListGroup.Item>
+              <ListGroup.Item>$15.208.23</ListGroup.Item>
+              <ListGroup.Item>of $60,000</ListGroup.Item>
+            </ListGroup>
+          </Card>
         </Row>
       </div>
     </>

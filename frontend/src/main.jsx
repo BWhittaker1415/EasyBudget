@@ -16,14 +16,14 @@ import WelcomeScreen from "./screens/WelcomeScreen.jsx";
 
 import Dashboard from "./screens/Dashboard.jsx";
 
-import Accounts from "./screens/AccountScreen.jsx";
+import Accounts from "./screens/accountScreens/AccountScreen.jsx";
 
-import Budgets from "./screens/BudgetScreen.jsx";
-import CreateBudgets from "./screens/BudgetCreateScreen.jsx";
-import BudgetEdit from "./screens/BudgetEditScreen.jsx";
-import BudgetDetail from "./screens/BudgetDetailScreen.jsx";
+import Budgets from "./screens/budgetScreens/BudgetScreen.jsx";
+import CreateBudgets from "./screens/budgetScreens/BudgetCreateScreen.jsx";
+import BudgetEdit from "./screens/budgetScreens/BudgetEditScreen.jsx";
+import BudgetDetail from "./screens/budgetScreens/BudgetDetailScreen.jsx";
 
-import Transaction from "./screens/TransactionScreen.jsx";
+import Transaction from "./screens/transactionScreens/TransactionScreen.jsx";
 
 import LoginScreen from "./screens/LoginScreen.jsx";
 

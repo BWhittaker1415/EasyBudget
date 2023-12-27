@@ -4,12 +4,12 @@ import { FaTimes } from "react-icons/fa";
 import { GrEdit } from "react-icons/gr";
 import { IoMdAddCircleOutline } from "react-icons/io";
 import { GoTrash } from "react-icons/go";
-import Loader from "../components/Loader";
-import Message from "../components/Message";
+import Loader from "../../components/Loader";
+import Message from "../../components/Message";
 import {
   useGetBudgetQuery,
   useDeleteBudgetMutation,
-} from "../slices/budgetApiSlice";
+} from "../../slices/budgetApiSlice";
 import { toast } from "react-toastify";
 
 const BudgetScreen = () => {

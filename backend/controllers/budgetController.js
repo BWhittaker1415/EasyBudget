@@ -6,9 +6,9 @@ import Budget from "../models/budgetModel.js";
 // route   =>  POST /api/budgets
 // access   =>   Private
 const createBudget = asyncHandler(async (req, res) => {
-  const { category, name, date, cost } = req.body;
+  const { category, name, date, cost, progressTotal } = req.body;
 
-  if (!category || !name || !date || !cost) {
+  if (!category || !name || !date || !cost || !progressTotal) {
     res.status(400);
     throw new Error("Invalid data");
   } else {
@@ -17,6 +17,7 @@ const createBudget = asyncHandler(async (req, res) => {
       name,
       date,
       cost,
+      progressTotal,
     });
 
     const createdBudget = await newBudget.save();
@@ -53,7 +54,7 @@ const getBudgetById = asyncHandler(async (req, res) => {
 // route   =>  GET /api/budgets/:id
 // access   =>   Private
 const updateBudget = asyncHandler(async (req, res) => {
-  const { category, name, date, cost } = req.body;
+  const { category, name, date, cost, progressTotal } = req.body;
 
   const budget = await Budget.findById(req.params.id);
 
@@ -62,6 +63,7 @@ const updateBudget = asyncHandler(async (req, res) => {
     budget.name = name;
     budget.date = date;
     budget.cost = cost;
+    budget.progressTotal = progressTotal;
 
     const updatedBudget = await budget.save();
     res.json(updatedBudget);

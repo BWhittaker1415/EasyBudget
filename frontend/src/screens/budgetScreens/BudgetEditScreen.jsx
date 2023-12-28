@@ -17,6 +17,7 @@ const BudgetEditScreen = () => {
   const [name, setName] = useState("");
   const [date, setDate] = useState("");
   const [cost, setCost] = useState("");
+  const [progressTotal, setProgressTotal] = useState("");
 
   const {
     data: budget,
@@ -33,12 +34,15 @@ const BudgetEditScreen = () => {
   useEffect(() => {
     if (budget) {
       setCategory(budget.category);
+
       setName(budget.name);
 
       const formattedDate = new Date(budget.date).toISOString().split("T")[0];
       setDate(formattedDate);
 
       setCost(budget.cost);
+
+      setProgressTotal(budget.progressTotal);
     }
   }, [budget]);
 
@@ -48,12 +52,26 @@ const BudgetEditScreen = () => {
       console.error("Budget is undefined");
       return;
     }
+
+    if (!category || !name || !date || !cost || !progressTotal) {
+      toast.error("Please fill in all fields.");
+      return;
+    }
+
+    if (isNaN(cost)) {
+      toast.error("Please enter a valid cost");
+      return;
+    }
+
+    const formattedDate = new Date(date).toISOString().split("T")[0];
+
     const updatedBudget = {
       budgetId,
       category,
       name,
-      date,
+      date: formattedDate,
       cost,
+      progressTotal,
     };
 
     const result = await updateBudget(updatedBudget);
@@ -85,7 +103,6 @@ const BudgetEditScreen = () => {
               <Form.Label>Category</Form.Label>
               <Form.Control
                 type="text"
-                placeholder="Enter category"
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
               ></Form.Control>
@@ -95,7 +112,6 @@ const BudgetEditScreen = () => {
               <Form.Label>Budget Name</Form.Label>
               <Form.Control
                 type="text"
-                placeholder="Enter name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
               ></Form.Control>
@@ -105,19 +121,26 @@ const BudgetEditScreen = () => {
               <Form.Label>Due Date</Form.Label>
               <Form.Control
                 type="date"
-                placeholder="Enter date"
                 value={date}
                 onChange={(e) => setDate(e.target.value)}
               ></Form.Control>
             </Form.Group>
 
             <Form.Group controlId="cost" className="my-2">
-              <Form.Label>Budget Cost</Form.Label>
+              <Form.Label>Money Saved</Form.Label>
               <Form.Control
                 type="number"
-                placeholder="Enter cost"
                 value={cost}
                 onChange={(e) => setCost(e.target.value)}
+              ></Form.Control>
+            </Form.Group>
+
+            <Form.Group controlId="progressTotal" className="my-2">
+              <Form.Label>Money Needed</Form.Label>
+              <Form.Control
+                type="number"
+                value={progressTotal}
+                onChange={(e) => setProgressTotal(e.target.value)}
               ></Form.Control>
             </Form.Group>
 

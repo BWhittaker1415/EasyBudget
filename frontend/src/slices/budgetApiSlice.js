@@ -10,7 +10,7 @@ export const budgetApiSlice = apiSlice.injectEndpoints({
         method: "POST",
         body: budget,
       }),
-      invalidatesTags: [Budget],
+      invalidatesTags: ["Budget"],
       onSuccess: (result, variables, api) => {
         const createdBudget = result.data;
         api.dispatch(budgetApiSlice.endpoints.getBudget.initiate());

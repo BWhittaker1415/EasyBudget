@@ -6,12 +6,14 @@ import FormContainer from "../../components/FormContainer";
 import { toast } from "react-toastify";
 import Loader from "../../components/Loader";
 import { useCreateBudgetMutation } from "../../slices/budgetApiSlice";
+import { ProgressBar } from "react-bootstrap";
 
 const BudgetCreateScreen = () => {
   const [category, setCategory] = useState("");
   const [name, setName] = useState("");
   const [date, setDate] = useState("");
   const [cost, setCost] = useState("");
+  const [progressTotal, setProgressTotal] = useState("");
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -20,7 +22,6 @@ const BudgetCreateScreen = () => {
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    console.log("working");
     try {
       const inputDate = new Date(date);
       const newDate = new Date(inputDate.toISOString().split("T")[0]);
@@ -29,20 +30,25 @@ const BudgetCreateScreen = () => {
         name,
         date: newDate.toISOString().split("T")[0],
         cost,
+        progressTotal,
       }).unwrap();
       console.log(response);
       if (response.data.success) {
-        console.log(response);
         dispatch({
           type: "BUDGET_CREATED",
           payload: response.data.createdBudget,
         });
-        navigate("/budgets");
         toast.success("New budget created!");
+        navigate("/budgets");
       }
     } catch (err) {
       toast.error(err.data?.message || err.error);
     }
+  };
+
+  const calculateProgress = () => {
+    const maxProgress = progressTotal || 100;
+    return (cost / maxProgress) * 100;
   };
 
   return (
@@ -85,16 +91,31 @@ const BudgetCreateScreen = () => {
           </Form.Group>
 
           <Form.Group className="my-2" controlId="cost">
-            <Form.Label>Budget Total</Form.Label>
+            <Form.Label>Money Saved..</Form.Label>
             <Form.Control
               type="number"
-              placeholder="Enter Cost"
+              placeholder="Enter Savings"
               value={cost}
               onChange={(e) => setCost(e.target.value)}
             ></Form.Control>
           </Form.Group>
 
+          <Form.Group className="my-2" controlId="progressTotal">
+            <Form.Label>Money Needed</Form.Label>
+            <Form.Control
+              type="number"
+              placeholder="Enter Total"
+              value={progressTotal}
+              onChange={(e) => setProgressTotal(e.target.value)}
+            ></Form.Control>
+          </Form.Group>
+
           {isLoading && <Loader />}
+
+          <ProgressBar
+            now={calculateProgress()}
+            label={`${calculateProgress().toFixed(2)}%`}
+          />
 
           <Button type="submit" variant="primary" className="mt-3 buttons">
             Add Budget

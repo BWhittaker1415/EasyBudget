@@ -23,6 +23,10 @@ const budgetSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
+    progressTotal: {
+      type: Number,
+      required: true,
+    },
   },
   {
     timestamps: true,

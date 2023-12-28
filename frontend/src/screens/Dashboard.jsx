@@ -5,6 +5,7 @@ import ListGroup from "react-bootstrap/ListGroup";
 import pieChart from "../charts/PieChart";
 import lineChart from "../charts/LineChart";
 import ReactECharts from "echarts-for-react";
+import Dashboard from "../assets/Dashboard.svg";
 import Vacation from "../assets/Vacation.svg";
 import Home from "../assets/Home.svg";
 
@@ -19,7 +20,7 @@ const HomeScreen = () => {
         <Row className="justify-content-xs-center align-items-center">
           <Col className="card" xs={11} sm={12} md={5} lg={4} xl={3}>
             <h3>Your Personal Dashboard</h3>
-            <ReactECharts option={pieChart} />
+            <img src={Dashboard} />
           </Col>
           <Col className="card" xs={11} sm={12} md={5} lg={4} xl={3}>
             <h3>Spending</h3>

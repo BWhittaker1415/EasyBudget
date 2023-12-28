@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { LinkContainer } from "react-router-bootstrap";
 import { Table, Button } from "react-bootstrap";
 import { FaRegStar } from "react-icons/fa6";
@@ -17,6 +17,13 @@ import { ProgressBar } from "react-bootstrap";
 const BudgetScreen = () => {
   const { data: budgets, isLoading, err, refetch } = useGetBudgetQuery();
   const [pinnedBudgets, setPinnedBudgets] = useState([]);
+
+  useEffect(() => {
+    const storedPinnedBudgets = localStorage.getItem("pinnedBudgets");
+    if (storedPinnedBudgets) {
+      setPinnedBudgets(JSON.parse(storedPinnedBudgets));
+    }
+  }, []);
 
   const [deleteBudget, { isLoading: loadingDelete }] =
     useDeleteBudgetMutation();
@@ -40,13 +47,19 @@ const BudgetScreen = () => {
 
   const togglePinnedStatus = (budgetId) => {
     setPinnedBudgets((prevPinnedBudgets) => {
-      if (prevPinnedBudgets.includes(budgetId)) {
-        // If already pinned, remove from pinned list
-        return prevPinnedBudgets.filter((id) => id !== budgetId);
-      } else {
-        // If not pinned, add to pinned list
-        return [...prevPinnedBudgets, budgetId];
-      }
+      const updatedPinnedBudgets = prevPinnedBudgets.includes(budgetId)
+        ? prevPinnedBudgets.filter((id) => id !== budgetId)
+        : [...prevPinnedBudgets, budgetId];
+
+      console.log("Updated Pinned Budgets:", updatedPinnedBudgets);
+
+      // Save pinned budgets to local storage when they change
+      localStorage.setItem(
+        "pinnedBudgets",
+        JSON.stringify(updatedPinnedBudgets)
+      );
+
+      return updatedPinnedBudgets;
     });
   };
 

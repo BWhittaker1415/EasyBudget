@@ -18,21 +18,29 @@ const HomeScreen = () => {
   const dispatch = useDispatch();
   const pinnedBudgets = useSelector((state) => state.auth.pinnedBudgets);
   const [dashboard] = useDashboardMutation();
-  const { data: budgets } = useGetBudgetQuery();
-
-  const fetchPinnedBudgets = async () => {
-    try {
-      const response = await axios.get("/api/budgets");
-      const fetchedPinnedBudgets = response.data;
-      dispatch(setPinnedBudgets(fetchedPinnedBudgets));
-    } catch (error) {
-      console.error("Error fetching pinned budgets:", error);
-    }
-  };
+  const { data: allBudgets } = useGetBudgetQuery();
 
   useEffect(() => {
+    const fetchPinnedBudgets = async () => {
+      try {
+        const response = await axios.get("/api/budgets");
+        const fetchedPinnedBudgets = response.data;
+        dispatch(setPinnedBudgets(fetchedPinnedBudgets));
+      } catch (error) {
+        console.error("Error fetching pinned budgets:", error);
+      }
+    };
+
     fetchPinnedBudgets();
   }, [dispatch]);
+
+  if (!allBudgets) {
+    return <div>Loading...</div>;
+  }
+
+  const pinnedBudgetDetails = allBudgets.filter((budget) =>
+    pinnedBudgets.includes(budget._id)
+  );
 
   return (
     <>
@@ -51,7 +59,7 @@ const HomeScreen = () => {
           <Col className="card" xs={11} sm={12} md={5} lg={4} xl={3}>
             <h3>Pinned Budgets</h3>
             <div>
-              {pinnedBudgets.map((pinnedBudget) => (
+              {pinnedBudgetDetails.map((pinnedBudget) => (
                 <div key={pinnedBudget._id} className="budget-card">
                   <ListGroup className="list-group-center">
                     <h5>{pinnedBudget.name}</h5>

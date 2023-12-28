@@ -1,6 +1,7 @@
+import { useState } from "react";
 import { LinkContainer } from "react-router-bootstrap";
 import { Table, Button } from "react-bootstrap";
-import { FaTimes } from "react-icons/fa";
+import { FaRegStar } from "react-icons/fa6";
 import { GrEdit } from "react-icons/gr";
 import { IoMdAddCircleOutline } from "react-icons/io";
 import { GoTrash } from "react-icons/go";
@@ -15,6 +16,7 @@ import { ProgressBar } from "react-bootstrap";
 
 const BudgetScreen = () => {
   const { data: budgets, isLoading, err, refetch } = useGetBudgetQuery();
+  const [pinnedBudgets, setPinnedBudgets] = useState([]);
 
   const [deleteBudget, { isLoading: loadingDelete }] =
     useDeleteBudgetMutation();
@@ -34,6 +36,18 @@ const BudgetScreen = () => {
   const calculateProgress = (budget) => {
     const maxProgress = budget.progressTotal || 100; // Use the provided progress total or a default value
     return (budget.cost / maxProgress) * 100;
+  };
+
+  const togglePinnedStatus = (budgetId) => {
+    setPinnedBudgets((prevPinnedBudgets) => {
+      if (prevPinnedBudgets.includes(budgetId)) {
+        // If already pinned, remove from pinned list
+        return prevPinnedBudgets.filter((id) => id !== budgetId);
+      } else {
+        // If not pinned, add to pinned list
+        return [...prevPinnedBudgets, budgetId];
+      }
+    });
   };
 
   return (
@@ -75,6 +89,19 @@ const BudgetScreen = () => {
               {budgets &&
                 budgets.map((budget) => (
                   <tr key={budget._id}>
+                    <td>
+                      <Button
+                        variant={
+                          pinnedBudgets.includes(budget._id)
+                            ? "success"
+                            : "light"
+                        }
+                        className="btn-sm mx-2 buttons"
+                        onClick={() => togglePinnedStatus(budget._id)}
+                      >
+                        <FaRegStar />
+                      </Button>
+                    </td>
                     <td>{budget.category}</td>
                     <td>{budget.name}</td>
                     <td>{new Date(budget.date).toLocaleDateString()}</td>

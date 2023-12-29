@@ -4,7 +4,6 @@ const initialState = {
   userInfo: localStorage.getItem("userInfo")
     ? JSON.parse(localStorage.getItem("userInfo"))
     : null,
-  pinnedBudgets: [],
 };
 
 const authSlice = createSlice({
@@ -19,13 +18,9 @@ const authSlice = createSlice({
       state.userInfo = null;
       localStorage.removeItem("userInfo");
     },
-    setPinnedBudgets: (state, action) => {
-      state.pinnedBudgets = action.payload;
-    },
   },
 });
 
-export const { setCredentials, clearCredentials, setPinnedBudgets } =
-  authSlice.actions;
+export const { setCredentials, clearCredentials } = authSlice.actions;
 
 export default authSlice.reducer;

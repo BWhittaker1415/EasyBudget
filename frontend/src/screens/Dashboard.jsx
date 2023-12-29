@@ -1,7 +1,5 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setPinnedBudgets } from "../slices/authSlice";
-import { useDashboardMutation } from "../slices/usersApiSlice";
 import { useGetBudgetQuery } from "../slices/budgetApiSlice";
 import { Row, Col, Card } from "react-bootstrap";
 import ListGroup from "react-bootstrap/ListGroup";
@@ -13,19 +11,18 @@ import Vacation from "../assets/Vacation.svg";
 import Home from "../assets/Home.svg";
 import axios from "axios";
 import { ProgressBar } from "react-bootstrap";
+import { setPinnedBudgets } from "../slices/pinnedBarSlice";
 
 const HomeScreen = () => {
   const dispatch = useDispatch();
-  const pinnedBudgets = useSelector((state) => state.auth.pinnedBudgets);
-  const [dashboard] = useDashboardMutation();
-  const { data: allBudgets } = useGetBudgetQuery();
+  const pinnedBudgets = useSelector((state) => state.pinnedBars);
+  const { data: allBudgets, isLoading, isError } = useGetBudgetQuery();
 
   useEffect(() => {
     const fetchPinnedBudgets = async () => {
       try {
         const response = await axios.get("/api/budgets");
-        const fetchedPinnedBudgets = response.data;
-        dispatch(setPinnedBudgets(fetchedPinnedBudgets));
+        dispatch(setPinnedBudgets(response.data));
       } catch (error) {
         console.error("Error fetching pinned budgets:", error);
       }
@@ -34,13 +31,22 @@ const HomeScreen = () => {
     fetchPinnedBudgets();
   }, [dispatch]);
 
-  if (!allBudgets) {
+  if (isLoading) {
     return <div>Loading...</div>;
   }
 
+  if (isError || !allBudgets) {
+    return <div>Error loading budgets.</div>;
+  }
+
   const pinnedBudgetDetails = allBudgets.filter((budget) =>
-    pinnedBudgets.includes(budget._id)
+    pinnedBudgets.some((pinnedBudget) => pinnedBudget.id === budget.id)
   );
+
+  const calculateProgress = (budget) => {
+    const maxProgress = budget.progressTotal || 100;
+    return (budget.cost / maxProgress) * 100;
+  };
 
   return (
     <>
@@ -59,16 +65,13 @@ const HomeScreen = () => {
           <Col className="card" xs={11} sm={12} md={5} lg={4} xl={3}>
             <h3>Pinned Budgets</h3>
             <div>
-              {pinnedBudgetDetails.map((pinnedBudget) => (
-                <div key={pinnedBudget._id} className="budget-card">
-                  <ListGroup className="list-group-center">
-                    <h5>{pinnedBudget.name}</h5>
-                    <ListGroup.Item>Progress</ListGroup.Item>
-                    <ListGroup.Item>{pinnedBudget.cost}</ListGroup.Item>
-                    <ListGroup.Item>
-                      of {pinnedBudget.progressTotal}
-                    </ListGroup.Item>
-                  </ListGroup>
+              {pinnedBudgetDetails.map((budget) => (
+                <div key={budget.id} className="progress-bar-item">
+                  <p>{budget.name}</p>
+                  <ProgressBar
+                    now={calculateProgress(budget)}
+                    label={`${calculateProgress(budget).toFixed(2)}%`}
+                  />
                 </div>
               ))}
             </div>

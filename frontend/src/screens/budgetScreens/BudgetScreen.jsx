@@ -1,4 +1,6 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { pinBar, unpinBar } from "../../slices/pinnedBarSlice";
 import { LinkContainer } from "react-router-bootstrap";
 import { Table, Button } from "react-bootstrap";
 import { FaRegStar } from "react-icons/fa6";
@@ -16,14 +18,18 @@ import { ProgressBar } from "react-bootstrap";
 
 const BudgetScreen = () => {
   const { data: budgets, isLoading, err, refetch } = useGetBudgetQuery();
-  const [pinnedBudgets, setPinnedBudgets] = useState([]);
+  const pinnedBudgets = useSelector((state) => state.pinnedBars);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const storedPinnedBudgets = localStorage.getItem("pinnedBudgets");
     if (storedPinnedBudgets) {
-      setPinnedBudgets(JSON.parse(storedPinnedBudgets));
+      const parsedPinnedBudgets = JSON.parse(storedPinnedBudgets);
+      parsedPinnedBudgets.forEach((budgetId) => {
+        dispatch(pinBar(budgetId));
+      });
     }
-  }, []);
+  }, [dispatch]);
 
   const [deleteBudget, { isLoading: loadingDelete }] =
     useDeleteBudgetMutation();
@@ -46,21 +52,12 @@ const BudgetScreen = () => {
   };
 
   const togglePinnedStatus = (budgetId) => {
-    setPinnedBudgets((prevPinnedBudgets) => {
-      const updatedPinnedBudgets = prevPinnedBudgets.includes(budgetId)
-        ? prevPinnedBudgets.filter((id) => id !== budgetId)
-        : [...prevPinnedBudgets, budgetId];
-
-      console.log("Updated Pinned Budgets:", updatedPinnedBudgets);
-
-      // Save pinned budgets to local storage when they change
-      localStorage.setItem(
-        "pinnedBudgets",
-        JSON.stringify(updatedPinnedBudgets)
-      );
-
-      return updatedPinnedBudgets;
-    });
+    const budget = budgets.find((budget) => budget._id === budgetId);
+    if (pinnedBudgets.includes(budget)) {
+      dispatch(unpinBar(budget));
+    } else {
+      dispatch(pinBar(budget));
+    }
   };
 
   return (
@@ -102,19 +99,6 @@ const BudgetScreen = () => {
               {budgets &&
                 budgets.map((budget) => (
                   <tr key={budget._id}>
-                    <td>
-                      <Button
-                        variant={
-                          pinnedBudgets.includes(budget._id)
-                            ? "success"
-                            : "light"
-                        }
-                        className="btn-sm mx-2 buttons"
-                        onClick={() => togglePinnedStatus(budget._id)}
-                      >
-                        <FaRegStar />
-                      </Button>
-                    </td>
                     <td>{budget.category}</td>
                     <td>{budget.name}</td>
                     <td>{new Date(budget.date).toLocaleDateString()}</td>
@@ -150,6 +134,15 @@ const BudgetScreen = () => {
                     now={calculateProgress(budget)}
                     label={`${calculateProgress(budget).toFixed(2)}%`}
                   />
+                  <Button
+                    variant={
+                      pinnedBudgets.includes(budget._id) ? "warning" : "light"
+                    }
+                    className="btn-sm mx-2 buttons"
+                    onClick={() => togglePinnedStatus(budget._id)}
+                  >
+                    <FaRegStar />
+                  </Button>
                 </div>
               ))}
           </div>

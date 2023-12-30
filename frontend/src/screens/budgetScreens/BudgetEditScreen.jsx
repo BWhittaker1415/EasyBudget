@@ -13,6 +13,17 @@ import {
 const BudgetEditScreen = () => {
   const { id: budgetId } = useParams();
 
+  const categories = [
+    "Select category..",
+    "Housing",
+    "Utilities",
+    "Auto",
+    "Food",
+    "Child Care",
+    "Credit Card",
+    "Other",
+  ];
+
   const [category, setCategory] = useState("");
   const [name, setName] = useState("");
   const [date, setDate] = useState("");
@@ -101,11 +112,16 @@ const BudgetEditScreen = () => {
           <Form onSubmit={submitHandler}>
             <Form.Group controlId="category" className="my-2">
               <Form.Label>Category</Form.Label>
-              <Form.Control
-                type="text"
+              <Form.Select
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
-              ></Form.Control>
+              >
+                {categories.map((cat, index) => (
+                  <option key={index} value={cat}>
+                    {cat}
+                  </option>
+                ))}
+              </Form.Select>
             </Form.Group>
 
             <Form.Group controlId="name" className="my-2">

@@ -1,6 +1,6 @@
-import { Navbar, Nav, Container, NavDropdown, Badge } from "react-bootstrap";
+import { Navbar, Nav, Container, NavDropdown } from "react-bootstrap";
 import { FaSignInAlt, FaSignOutAlt } from "react-icons/fa";
-import { GiProgression } from "react-icons/gi";
+import Logo from "../assets/EasyBudgetLogo.svg";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
@@ -29,9 +29,9 @@ const Header = () => {
     <header>
       <Navbar bg="dark" variant="dark" expand="lg" collapseOnSelect>
         <Container>
-          <LinkContainer to="/">
+          <LinkContainer to="/dashboard">
             <Navbar.Brand>
-              <GiProgression /> EasyBudget
+              <img src={Logo} />
             </Navbar.Brand>
           </LinkContainer>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -47,17 +47,11 @@ const Header = () => {
                     <LinkContainer to="/profile">
                       <NavDropdown.Item>Profile</NavDropdown.Item>
                     </LinkContainer>
-                    <LinkContainer to="/dashboard">
-                      <NavDropdown.Item>Dashboard</NavDropdown.Item>
-                    </LinkContainer>
                     <LinkContainer to="/accounts">
                       <NavDropdown.Item>Accounts</NavDropdown.Item>
                     </LinkContainer>
                     <LinkContainer to="/budgets">
-                      <NavDropdown.Item>Budgets</NavDropdown.Item>
-                    </LinkContainer>
-                    <LinkContainer to="/transactions">
-                      <NavDropdown.Item>Transactions</NavDropdown.Item>
+                      <NavDropdown.Item>Settings</NavDropdown.Item>
                     </LinkContainer>
                     <NavDropdown.Item onClick={logoutHandler}>
                       Logout

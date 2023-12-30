@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useGetBudgetQuery } from "../slices/budgetApiSlice";
-import { Row, Col, Card } from "react-bootstrap";
+import { setPinnedBudgets, pinBar, unpinBar } from "../slices/pinnedBarSlice";
+import { Row, Col, Card, ProgressBar } from "react-bootstrap";
 import ListGroup from "react-bootstrap/ListGroup";
 import pieChart from "../charts/PieChart";
 import lineChart from "../charts/LineChart";
@@ -10,8 +11,6 @@ import Dashboard from "../assets/Dashboard.svg";
 import Vacation from "../assets/Vacation.svg";
 import Home from "../assets/Home.svg";
 import axios from "axios";
-import { ProgressBar } from "react-bootstrap";
-import { setPinnedBudgets } from "../slices/pinnedBarSlice";
 
 const HomeScreen = () => {
   const dispatch = useDispatch();
@@ -19,17 +18,31 @@ const HomeScreen = () => {
   const { data: allBudgets, isLoading, isError } = useGetBudgetQuery();
 
   useEffect(() => {
-    const fetchPinnedBudgets = async () => {
-      try {
-        const response = await axios.get("/api/budgets");
-        dispatch(setPinnedBudgets(response.data));
-      } catch (error) {
-        console.error("Error fetching pinned budgets:", error);
-      }
-    };
-
-    fetchPinnedBudgets();
+    const storedPinnedBudgets = localStorage.getItem("pinnedBudgets");
+    if (storedPinnedBudgets) {
+      const parsedPinnedBudgets = JSON.parse(storedPinnedBudgets);
+      dispatch(setPinnedBudgets(parsedPinnedBudgets));
+    }
   }, [dispatch]);
+
+  const togglePinnedStatus = (budgetId) => {
+    if (pinnedBudgets.includes(budgetId)) {
+      dispatch(unpinBar(budgetId));
+      updateLocalStorage(pinnedBudgets.filter((id) => id !== budgetId));
+    } else {
+      dispatch(pinBar(budgetId));
+      updateLocalStorage([...pinnedBudgets, budgetId]);
+    }
+  };
+
+  const updateLocalStorage = (updatedPinnedBudgets) => {
+    localStorage.setItem("pinnedBudgets", JSON.stringify(updatedPinnedBudgets));
+  };
+
+  const calculateProgress = (budget) => {
+    const maxProgress = budget.progressTotal || 100;
+    return (budget.cost / maxProgress) * 100;
+  };
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -40,13 +53,8 @@ const HomeScreen = () => {
   }
 
   const pinnedBudgetDetails = allBudgets.filter((budget) =>
-    pinnedBudgets.some((pinnedBudget) => pinnedBudget.id === budget.id)
+    pinnedBudgets.includes(budget._id)
   );
-
-  const calculateProgress = (budget) => {
-    const maxProgress = budget.progressTotal || 100;
-    return (budget.cost / maxProgress) * 100;
-  };
 
   return (
     <>
@@ -69,8 +77,8 @@ const HomeScreen = () => {
                 <div key={budget.id} className="progress-bar-item">
                   <p>{budget.name}</p>
                   <ProgressBar
+                    className="mb-2"
                     now={calculateProgress(budget)}
-                    label={`${calculateProgress(budget).toFixed(2)}%`}
                   />
                 </div>
               ))}

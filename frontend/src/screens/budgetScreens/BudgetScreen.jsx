@@ -52,11 +52,26 @@ const BudgetScreen = () => {
   };
 
   const togglePinnedStatus = (budgetId) => {
-    const budget = budgets.find((budget) => budget._id === budgetId);
-    if (pinnedBudgets.includes(budget)) {
-      dispatch(unpinBar(budget));
+    if (pinnedBudgets.includes(budgetId)) {
+      dispatch(unpinBar(budgetId));
+      // Update localStorage
+      const updatedPinnedBudgets = pinnedBudgets.filter(
+        (id) => id !== budgetId
+      );
+      localStorage.setItem(
+        "pinnedBudgets",
+        JSON.stringify(updatedPinnedBudgets)
+      );
     } else {
-      dispatch(pinBar(budget));
+      dispatch(pinBar(budgetId));
+      // Update localStorage
+      const updatedPinnedBudgets = [...pinnedBudgets, budgetId];
+      localStorage.setItem(
+        "pinnedBudgets",
+        JSON.stringify(updatedPinnedBudgets)
+      );
+      console.log("Toggling pinned status for ID:", budgetId);
+      console.log("Current pinned budgets:", pinnedBudgets);
     }
   };
 
@@ -130,15 +145,12 @@ const BudgetScreen = () => {
               budgets.map((budget) => (
                 <div key={budget._id} className="progress-bar-item">
                   <p>{budget.name}</p>
-                  <ProgressBar
-                    now={calculateProgress(budget)}
-                    label={`${calculateProgress(budget).toFixed(2)}%`}
-                  />
+                  <ProgressBar now={calculateProgress(budget)} />
                   <Button
                     variant={
                       pinnedBudgets.includes(budget._id) ? "warning" : "light"
                     }
-                    className="btn-sm mx-2 buttons"
+                    className="btn-sm mx-2 mt-2 mb-3 buttons"
                     onClick={() => togglePinnedStatus(budget._id)}
                   >
                     <FaRegStar />

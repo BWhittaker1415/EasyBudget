@@ -5,14 +5,14 @@ const pinnedBarSlice = createSlice({
   initialState: [],
   reducers: {
     setPinnedBudgets: (state, action) => action.payload,
-
     pinBar: (state, action) => {
-      if (!state.some((budget) => budget.id === action.payload.id)) {
-        state.push(action.payload);
+      const budgetId = action.payload;
+      if (!state.includes(budgetId)) {
+        state.push(budgetId);
       }
     },
     unpinBar: (state, action) => {
-      return state.filter((budget) => budget.id !== action.payload.id);
+      return state.filter((id) => id !== action.payload);
     },
   },
 });

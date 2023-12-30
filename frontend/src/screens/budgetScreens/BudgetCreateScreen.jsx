@@ -9,6 +9,16 @@ import { useCreateBudgetMutation } from "../../slices/budgetApiSlice";
 import { ProgressBar } from "react-bootstrap";
 
 const BudgetCreateScreen = () => {
+  const categories = [
+    "Select category..",
+    "Housing",
+    "Utilities",
+    "Auto",
+    "Food",
+    "Child Care",
+    "Credit Card",
+    "Other",
+  ];
   const [category, setCategory] = useState("");
   const [name, setName] = useState("");
   const [date, setDate] = useState("");
@@ -63,12 +73,16 @@ const BudgetCreateScreen = () => {
         <Form onSubmit={submitHandler}>
           <Form.Group className="my-2" controlId="category">
             <Form.Label>Category</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Enter Category"
+            <Form.Select
               value={category}
               onChange={(e) => setCategory(e.target.value)}
-            ></Form.Control>
+            >
+              {categories.map((cat, index) => (
+                <option key={index} value={cat}>
+                  {cat}
+                </option>
+              ))}
+            </Form.Select>
           </Form.Group>
 
           <Form.Group className="my-2" controlId="name">

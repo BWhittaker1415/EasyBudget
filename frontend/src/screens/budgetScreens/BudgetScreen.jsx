@@ -77,11 +77,11 @@ const BudgetScreen = () => {
 
   return (
     <>
-      <h1>Budgets</h1>
+      <h1>Expenses</h1>
 
-      <LinkContainer to="/budgets/create" className="my-3">
-        <Button variant="light" className="btn-sm create-btn buttons">
-          <IoMdAddCircleOutline /> Add New Budget
+      <LinkContainer to='/budgets/create' className='my-3'>
+        <Button variant='light' className='btn-sm create-btn buttons'>
+          <IoMdAddCircleOutline /> Add New Expense
         </Button>
       </LinkContainer>
 
@@ -89,7 +89,7 @@ const BudgetScreen = () => {
       {isLoading ? (
         <Loader />
       ) : err ? (
-        <Message variant="danger">{err}</Message>
+        <Message variant='danger'>{err}</Message>
       ) : (
         <>
           <Table
@@ -97,7 +97,7 @@ const BudgetScreen = () => {
             striped
             hover
             responsive
-            className="table-sm budget-table"
+            className='table-sm budget-table'
           >
             <thead>
               <tr>
@@ -121,15 +121,15 @@ const BudgetScreen = () => {
                     <td>{budget.progressTotal}</td>
                     <td>
                       <LinkContainer to={`/budgets/${budget._id}/edit`}>
-                        <Button variant="light" className="btn-sm mx-2 buttons">
+                        <Button variant='light' className='btn-sm mx-2 buttons'>
                           <GrEdit />
                         </Button>
                       </LinkContainer>
                     </td>
                     <td>
                       <Button
-                        variant="danger"
-                        className="btn-sm mx-2 buttons"
+                        variant='danger'
+                        className='btn-sm mx-2 buttons'
                         onClick={() => deleteHandler(budget._id)}
                       >
                         <GoTrash />
@@ -140,17 +140,17 @@ const BudgetScreen = () => {
             </tbody>
           </Table>
 
-          <div className="progress-bars-container">
+          <div className='progress-bars-container'>
             {budgets &&
               budgets.map((budget) => (
-                <div key={budget._id} className="progress-bar-item">
+                <div key={budget._id} className='progress-bar-item'>
                   <p>{budget.name}</p>
                   <ProgressBar now={calculateProgress(budget)} />
                   <Button
                     variant={
                       pinnedBudgets.includes(budget._id) ? "warning" : "light"
                     }
-                    className="btn-sm mx-2 mt-2 mb-3 buttons"
+                    className='btn-sm mx-2 mt-2 mb-3 buttons'
                     onClick={() => togglePinnedStatus(budget._id)}
                   >
                     <FaRegStar />

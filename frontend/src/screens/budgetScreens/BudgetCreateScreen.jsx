@@ -63,15 +63,15 @@ const BudgetCreateScreen = () => {
 
   return (
     <div>
-      <h1>Create a new Budget to track</h1>
+      <h1>Create a new Expense to track</h1>
 
-      <Link className="btn btn-light my-3 buttons" to="/budgets">
+      <Link className='btn btn-light my-3 buttons' to='/budgets'>
         Go Back
       </Link>
 
-      <FormContainer className="budget-create">
+      <FormContainer className='budget-create'>
         <Form onSubmit={submitHandler}>
-          <Form.Group className="my-2" controlId="category">
+          <Form.Group className='my-2' controlId='category'>
             <Form.Label>Category</Form.Label>
             <Form.Select
               value={category}
@@ -85,53 +85,48 @@ const BudgetCreateScreen = () => {
             </Form.Select>
           </Form.Group>
 
-          <Form.Group className="my-2" controlId="name">
-            <Form.Label>Budget Name</Form.Label>
+          <Form.Group className='my-2' controlId='name'>
+            <Form.Label>Expense Name</Form.Label>
             <Form.Control
-              type="text"
-              placeholder="Enter Budget Name"
+              type='text'
+              placeholder='Enter Budget Name'
               value={name}
               onChange={(e) => setName(e.target.value)}
             ></Form.Control>
           </Form.Group>
 
-          <Form.Group className="my-2" controlId="date">
+          <Form.Group className='my-2' controlId='date'>
             <Form.Label>Due Date</Form.Label>
             <Form.Control
-              type="date"
+              type='date'
               value={date}
               onChange={(e) => setDate(e.target.value)}
             ></Form.Control>
           </Form.Group>
 
-          <Form.Group className="my-2" controlId="cost">
-            <Form.Label>Money Saved..</Form.Label>
-            <Form.Control
-              type="number"
-              placeholder="Enter Savings"
-              value={cost}
-              onChange={(e) => setCost(e.target.value)}
-            ></Form.Control>
-          </Form.Group>
-
-          <Form.Group className="my-2" controlId="progressTotal">
+          <Form.Group className='my-2' controlId='progressTotal'>
             <Form.Label>Money Needed</Form.Label>
             <Form.Control
-              type="number"
-              placeholder="Enter Total"
+              type='number'
+              placeholder='Enter Total'
               value={progressTotal}
               onChange={(e) => setProgressTotal(e.target.value)}
             ></Form.Control>
           </Form.Group>
 
+          <Form.Group className='my-2' controlId='cost'>
+            <Form.Label>Money set aside..</Form.Label>
+            <Form.Control
+              type='number'
+              placeholder='Enter Savings'
+              value={cost}
+              onChange={(e) => setCost(e.target.value)}
+            ></Form.Control>
+          </Form.Group>
+
           {isLoading && <Loader />}
 
-          <ProgressBar
-            now={calculateProgress()}
-            label={`${calculateProgress().toFixed(2)}%`}
-          />
-
-          <Button type="submit" variant="primary" className="mt-3 buttons">
+          <Button type='submit' variant='primary' className='mt-3 buttons'>
             Add Budget
           </Button>
         </Form>
